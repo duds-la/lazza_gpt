@@ -22,6 +22,31 @@ def resposta_reposta_modelo(mensagens,
     return response
 
 def pagina_principal():
-    st.header('🤖 Lazza ChatBot', divider=True)
+    
+    if not 'mensagens' in st.session_state:
+        st.session_state.mensagens = []
+    
+    mensagens = st.session_state['mensagens']
+    
+    st.header('😡 BabacaGPT', divider=True)
+
+    for mensagem in mensagens:
+        chat = st.chat_message(mensagem['role'])
+        chat.markdown(mensagem['content'])
+    
+    prompt = st.chat_input('Pergunte algo...')
+    if prompt:
+        nova_mensagem = {'role':'user',
+                        'content': prompt}
+        chat = st.chat_message(nova_mensagem['role'])
+        chat.markdown(nova_mensagem['content'])
+        mensagens.append(nova_mensagem)
+        
+
+
+
+
+        st.session_state['mensagens'] = mensagens
+
 
 pagina_principal()
